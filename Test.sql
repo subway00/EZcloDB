@@ -1,4 +1,4 @@
-SELECT * FROM FileFolder
+SELECT * FROM Member
 INSERT INTO Member (M_Email, M_Born) VALUES ( '12345'  , '1400-10-10' )
 INSERT INTO Member (M_Email, M_Born, M_Gender, M_PW) VALUES ( '12345'  , '1400-10-10', 'F', 'a13334' )
 --顯示資料結構
