@@ -1,4 +1,4 @@
-SELECT * FROM Test
+SELECT * FROM MEMBER
 --顯示資料結構
 exec sp_columns Test
 GO
