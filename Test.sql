@@ -1,6 +1,6 @@
-SELECT * FROM MEMBER
+SELECT * FROM Test
 --顯示資料結構
-exec sp_columns Member
+exec sp_columns Test
 GO
 --重製識別碼
 DBCC CHECKIDENT (FileFolder, RESEED, 0)
