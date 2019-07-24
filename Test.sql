@@ -1,5 +1,4 @@
-SELECT * FROM Member
-SELECT * FROM FileFolder
+SELECT * FROM MEMBER
 --顯示資料結構
 exec sp_columns Member
 GO
@@ -8,6 +7,8 @@ DBCC CHECKIDENT (FileFolder, RESEED, 0)
 --清空資料表內容
 DELETE  FROM  FileFolder
 ------------------------------------------------
+--新增欄位
+ALTER TABLE MEMBER ADD [M_Active] [bit] NULL
 INSERT INTO Member (M_Email, M_Born) VALUES ( '12345'  , '1400-10-10' )
 INSERT INTO Member (M_Email, M_Born, M_Gender, M_PW) VALUES ( '12345'  , '1400-10-10', 'F', 'a13334' )
 
@@ -28,6 +29,4 @@ SELECT F_Name FROM FileFolder WHERE F_Able=1 AND F_Name='11111' ORDER BY F_Numbe
 SELECT T_Number FROM Test WHERE T_Able=1 AND T_Name='6'
 UPDATE Test SET T_Name='Fkj' WHERE T_Number=10
 UPDATE Test SET T_Name='qwerasd' WHERE T_Number=8 AND T_Able='1'
-SELECT M_Email, M_Gender, M_Born FROM Member WHERE M_Number=2003
-
-UPDATE Member SET M_Active=1 WHERE M_Number=2003
+UPDATE Member SET M_Active=1 WHERE M_Number=1
