@@ -1,6 +1,7 @@
-SELECT * FROM Test
+SELECT * FROM Member
+SELECT * FROM FileFolder
 --顯示資料結構
-exec sp_columns Test
+exec sp_columns Member
 GO
 --重製識別碼
 DBCC CHECKIDENT (FileFolder, RESEED, 0)
@@ -27,3 +28,6 @@ SELECT F_Name FROM FileFolder WHERE F_Able=1 AND F_Name='11111' ORDER BY F_Numbe
 SELECT T_Number FROM Test WHERE T_Able=1 AND T_Name='6'
 UPDATE Test SET T_Name='Fkj' WHERE T_Number=10
 UPDATE Test SET T_Name='qwerasd' WHERE T_Number=8 AND T_Able='1'
+SELECT M_Email, M_Gender, M_Born FROM Member WHERE M_Number=2003
+
+UPDATE Member SET M_Active=1 WHERE M_Number=2003
