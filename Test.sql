@@ -45,11 +45,16 @@ UPDATE Member SET M_Active=1 WHERE M_Number=1
 INSERT INTO Test(T_Name) VALUES ('yyyee')
 SELECT * FROM Test WHERE T_Name='yyyee'
 ----帳號資訊
-SELECT M_Email, M_Gender, M_Born  
+SELECT M_Email, M_Gender, M_Born, 
+COUNT(R.R_Number)  AS '測驗次數',
+COUNT(R.R_Right) AS '總答對題數',
+COUNT(R.R_Wrong) AS '總答錯題數',
+COUNT(R.R_Right)/ (COUNT(R.R_Right)+COUNT(R.R_Wrong)) AS '答對率'
 FROM Member AS M LEFT JOIN FileFolder AS F
 ON M.M_Number=F.M_Number
 LEFT JOIN Test AS T
 ON F.F_Number=T.F_Number
 LEFT JOIN Result AS R
 ON T.T_Number=R.T_Number
-WHERE M.M_Number=2003 
+WHERE M.M_Number=1 
+GROUP BY M_Email, M_Gender, M_Born
