@@ -1,4 +1,4 @@
-SELECT * FROM Result
+SELECT * FROM Member
 SELECT * FROM Member
 
 --顯示資料結構
@@ -58,3 +58,22 @@ LEFT JOIN Result AS R
 ON T.T_Number=R.T_Number
 WHERE M.M_Number=1 
 GROUP BY M_Email, M_Gender, M_Born
+
+
+--SELECT * FROM Result WHERE T_Number IN (5185, 7123)
+--GO
+SELECT M_Email, M_Gender, M_Born, 
+COUNT(R.R_Number)  AS 'FinishTest',
+SUM(R.R_Wrong) + SUM(R.R_Right) AS 'TotalQuestions',
+SUM(R.R_Right) AS 'RightCount',
+ROUND(CONVERT(float, SUM(R.R_Right))/ SUM(R.R_Wrong + R.R_Right) *100, 2) AS 'RightRate'
+FROM Member AS M LEFT JOIN FileFolder AS F
+ON M.M_Number=F.M_Number
+LEFT JOIN Test AS T
+ON F.F_Number=T.F_Number
+LEFT JOIN Result AS R
+ON T.T_Number=R.T_Number
+WHERE M.M_Number=2003 
+GROUP BY M_Email, M_Gender, M_Born
+
+
