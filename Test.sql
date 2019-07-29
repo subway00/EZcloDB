@@ -1,5 +1,5 @@
 SELECT * FROM Member
-SELECT * FROM Member
+SELECT * FROM FileFolder
 
 --顯示資料結構
 exec sp_columns Result
@@ -24,6 +24,8 @@ INSERT INTO Member (M_Email, M_Born) VALUES ( '12345'  , '1400-10-10' )
 INSERT INTO Member (M_Email, M_Born, M_Gender, M_PW) VALUES ( '12345'  , '1400-10-10', 'F', 'a13334' )
 INSERT INTO Result (R_Right, R_Wrong, T_Number, F_Number
 SELECT M_Email, M_PW FROM Member
+--刪除Row
+DELETE FROM FileFolder WHERE F_Number=96
 
 INSERT INTO FileFolder (F_Name, F_Able) VALUES ('789',  0)
 INSERT INTO Test (F_Number) VALUES (777)
