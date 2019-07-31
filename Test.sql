@@ -1,24 +1,55 @@
-SELECT * FROM Member
-SELECT * FROM FileFolder
+SELECT * FROM Test ORDER BY T_Number
+SELECT * FROM Result
+SELECT * FROM Test
 
 --顯示資料結構
-exec sp_columns Result
+exec sp_columns Test
 GO
 --重製識別碼
 DBCC CHECKIDENT (FileFolder, RESEED, 0)
 --清空資料表內容
-DELETE  FROM  FileFolder
+DELETE  FROM  Result
 ------------------------------------------------
 --新增欄位
-ALTER TABLE MEMBER ADD [M_Active] [bit] NULL
+
 ----試卷資訊
-SELECT T_Name, T.T_Number, T_BuildTime, R_TestTime 
+SELECT TOP(1) R_TestTime FROM Result ORDER BY R_Number DESC
+
+SELECT T_Name, T.T_Number, T_BuildTime, R. R_TestTime
 FROM FileFolder AS F LEFT JOIN Test AS T
 ON F.F_Number = T.F_Number
 LEFT JOIN Result AS R
 ON T.T_Number = R.T_Number
-WHERE F.F_Number=4051
----
+INNER JOIN 
+(SELECT MAX(R2.R_Number) AS MAX_R_Number, R2.R_TestTime  FROM Result AS R2) AS R3
+ON R.R_Number =MAX_R_Number 
+WHERE F.F_Number=1 
+
+SELECT TOP(1) R_TestTime FROM Result ORDER BY R_Number DESC
+
+SELECT T_Name, T.T_Number, T_BuildTime, R_TestTime , MAX(R.R_Number) AS RNUMber 
+FROM FileFolder AS F LEFT JOIN Test AS T
+ON F.F_Number = T.F_Number
+LEFT JOIN Result AS R
+ON T.T_Number = R.T_Number
+WHERE F.F_Number=86  
+GROUP BY T_Name, T.T_Number, T_BuildTime, R_TestTime 
+ORDER BY T.T_Number
+
+
+SELECT T_Name, T.T_Number, T_BuildTime, R.R_TestTime, R.R_Number  
+FROM FileFolder AS F LEFT JOIN Test AS T
+ON F.F_Number = T.F_Number
+LEFT JOIN Result AS R
+ON T.T_Number = R.T_Number
+INNER JOIN (SELECT R2.T_Number, MAX(R2.R_Number)  AS MAX_T_Number FROM Result AS R2 GROUP BY R2.T_Number) AS R3
+ON R.T_Number=R3.T_Number AND R.R_Number =R3.MAX_T_Number
+WHERE F.F_Number=1 
+ORDER BY T.T_Number
+
+-
+ALTER TABLE Test DROP COLUMN T_Letter
+ALTER TABLE Test ADD T_Content varbinary(max)
 ALTER TABLE Result ALTER COLUMN R_TestTime date
 INSERT INTO Member (M_Email, M_Born) VALUES ( '12345'  , '1400-10-10' )
 INSERT INTO Member (M_Email, M_Born, M_Gender, M_PW) VALUES ( '12345'  , '1400-10-10', 'F', 'a13334' )
@@ -31,7 +62,7 @@ INSERT INTO FileFolder (F_Name, F_Able) VALUES ('789',  0)
 INSERT INTO Test (F_Number) VALUES (777)
 
 UPDATE FileFolder SET F_Name='0' WHERE F_Name=''
-
+UPDATE Member SET M_Active=1 WHERE M_Number=1
 SELECT T_Name FROM Test WHERE T_Able=1 AND F_Number ='28' ORDER BY T_Number
 
 INSERT INTO Test (T_Name, T_Able, F_Number) VALUES (  'b', 1, 66)
@@ -79,3 +110,12 @@ WHERE M.M_Number=2003
 GROUP BY M_Email, M_Gender, M_Born
 
 
+----
+SELECT T_Name, T.T_Number, T_BuildTime,  R_TestTime, MAX(R_Number) 
+FROM FileFolder AS F LEFT JOIN Test AS T
+ON F.F_Number = T.F_Number
+LEFT JOIN Result AS R
+ON T.T_Number = R.T_Number
+WHERE F.F_Number=2 AND T_Able=1
+GROUP BY T_Name, T.T_Number, T_BuildTime, R_TestTime
+ORDER BY T_Number
